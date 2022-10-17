@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using System.Xml;
+using System.IO;
 
 namespace WzorzecAdapter
 {
@@ -23,10 +24,35 @@ namespace WzorzecAdapter
 
     public class UsersCsv
     {
-        static string path = @"D:\\Users\\dawid.studzizba\\Downloads";
-        StreamReader streamReader = new StreamReader(path);
-        DataTable dataTable = new DataTable();
-        int rowcount = 0;
+        public async Task<string> GetUsersCsvAsync()
+        {
+            string path = @"C:\Users\hiewi\Downloads\users.csv";
+            string[] lines = File.ReadAllLines(path);
+            string output = "";
+            foreach (var line in lines)
+            {
+                string[] columns = line.Split(',');
+                var i = 1;
+                foreach (var column in columns)
+                {
+                    output += column;
+                    if (i == 1)
+                    {
+                        output += " ";
+                        i = 2;
+                    }
+                    else
+                    {
+                        output += "\n";
+                        i = 1;
+                    }
+                }
+
+            }
+
+            return await Task.FromResult(output.Remove(output.Length-1));
+        }
+        
     }
 
     //
@@ -77,6 +103,35 @@ namespace WzorzecAdapter
 
     }
 
+    public class UsersCsvAdapter : IUserRepository
+    {
+        private UsersCsv _adaptee = null;
+
+        public UsersCsvAdapter(UsersCsv adaptee)
+        {
+            _adaptee = adaptee;
+        }
+
+        public List<List<string>> GetUserNames()
+        {
+            string incompatibleCsvResponse = _adaptee
+                .GetUsersCsvAsync()
+                .GetAwaiter()
+                .GetResult();
+
+            List<List<string>> users = new List<List<string>>();
+
+            var user = incompatibleCsvResponse.Split("\n").ToList();
+
+            user.ForEach(q =>
+            {
+                users.Add(user);
+            });
+
+            return users;
+        }
+    }
+
     //
     // tu trzeba dopisać własny adapter implementujący odpowiedni interfejs
     //
@@ -94,20 +149,28 @@ namespace WzorzecAdapter
             List<List<string>> users = adapter.GetUserNames();
             int i = 1;
             users.ForEach(user => {
-                //
+                Console.WriteLine($"{i.ToString("0#")}. {user[0]} {user[1]}");
+                i++;
             });
 
             Console.WriteLine();
 
             // TODO: wyświetl w konsoli wynik działania obu adapterów
 
+            UsersCsv usersRepositoryCsv = new UsersCsv();
+            IUserRepository adapterCsv = new UsersCsvAdapter(usersRepositoryCsv);
+
             Console.WriteLine("Użytkownicy z CSV:");
 
-
+            List<List<string>> usersCsv = adapterCsv.GetUserNames();
+            int j = 0;
+            usersCsv.ForEach(user =>
+            {
+                Console.WriteLine($"{(j+1).ToString("0#")}. {user[j]}");
+                j++;
+            });
 
         }
 
     }
-
-
 }
