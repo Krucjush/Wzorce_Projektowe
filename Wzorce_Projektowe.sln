@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "budowniczy", "budowniczy\bu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "prototyp", "prototyp\prototyp.csproj", "{E2468216-7B4F-4C78-8F34-5F500EDC1CFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FabrykaAbstrakcyjna", "FabrykaAbstrakcyjna\FabrykaAbstrakcyjna.csproj", "{03A1CF84-C0D8-48FF-99EA-A54453F181E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FabrykaAbstrakcyjna", "FabrykaAbstrakcyjna\FabrykaAbstrakcyjna.csproj", "{03A1CF84-C0D8-48FF-99EA-A54453F181E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adapter", "Adapter\Adapter.csproj", "{0FC932CE-58C1-4327-A066-E78E90D31ABD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adapter", "Adapter\Adapter.csproj", "{0FC932CE-58C1-4327-A066-E78E90D31ABD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Refaktoryzaca", "Refaktoryzaca\Refaktoryzaca.csproj", "{872F65C0-B09A-4A4F-907B-1BFD82CEC47F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0FC932CE-58C1-4327-A066-E78E90D31ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FC932CE-58C1-4327-A066-E78E90D31ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FC932CE-58C1-4327-A066-E78E90D31ABD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{872F65C0-B09A-4A4F-907B-1BFD82CEC47F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{872F65C0-B09A-4A4F-907B-1BFD82CEC47F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{872F65C0-B09A-4A4F-907B-1BFD82CEC47F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{872F65C0-B09A-4A4F-907B-1BFD82CEC47F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
