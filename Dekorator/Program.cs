@@ -88,7 +88,7 @@ namespace ExerciseDecorator
             var swimming = new SwimmingPoolEquipment(new Exercise());
             swimming.JustDoIt();
             Console.WriteLine();
-            var runningAndSwimming = new SwimmingPoolEquipment(new RunningEquipment(new Exercise()));
+            var runningAndSwimming = new RunningEquipment(new SwimmingPoolEquipment(new Exercise()));
             runningAndSwimming.JustDoIt();
             Console.WriteLine();
             var golfingAndSwimming = new SwimmingPoolEquipment(new GolfingEquipment(new Exercise()));
