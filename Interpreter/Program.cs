@@ -7,25 +7,11 @@ namespace Interpreter
     class Context
     {
 
-        private string input;
-        private int output;
+        public Context(string input) => Input = input;
 
-        public Context(string input)
-        {
-            this.input = input;
-        }
+        public string Input { get; set; }
 
-        public string Input
-        {
-            get { return input; }
-            set { input = value; }
-        }
-
-        public int Output
-        {
-            get { return output; }
-            set { output = value; }
-        }
+        public int Output { get; set; }
 
     }
 
@@ -37,49 +23,27 @@ namespace Interpreter
         {
             if (context.Input.Length == 0)
                 return;
-            else if (context.Input.Length > 0)
+
+            if (context.Input.StartsWith(Nine()))
             {
-                if (context.Input.StartsWith(One()))
-                {
-                    context.Output += 1 * Multiplier();
-                    context.Input.Remove(0, 1);
-                }
-                if (context.Input.StartsWith(Four()))
-                {
-                    context.Output += 4 * Multiplier();
-                    context.Input.Remove(0, 2);
-                }
-                if (context.Input.StartsWith(Five()))
-                {
-                    context.Output += 5 * Multiplier();
-                    context.Input.Remove(0, 1);
-                }
-                if (context.Input.StartsWith(Nine()))
-                {
-                    context.Output += 9 * Multiplier();
-                    context.Input.Remove(0, 2);
-                }
+                context.Output += Multiplier() * 9;
+                context.Input = context.Input[Nine().Length..];
             }
-            //if (context.Input.StartsWith(One()))
-            //{
-            //    context.Output += 1 * Multiplier();
-            //    context.Input.Remove(0, 1);
-            //}
-            //if (context.Input.StartsWith(Four()))
-            //{
-            //    context.Output += 4 * Multiplier();
-            //    context.Input.Remove(0, 2);
-            //}
-            //if (context.Input.StartsWith(Five()))
-            //{
-            //    context.Output += 5 * Multiplier();
-            //    context.Input.Remove(0, 1);
-            //}
-            //if (context.Input.StartsWith(Nine()))
-            //{
-            //    context.Output += 9 * Multiplier();
-            //    context.Input.Remove(0, 2);
-            //}
+            if (context.Input.StartsWith(Five()))
+            {
+                context.Output += Multiplier() * 5;
+                context.Input = context.Input[Five().Length..];
+            }
+            if (context.Input.StartsWith(Four()))
+            {
+                context.Output += Multiplier() * 4;
+                context.Input = context.Input[Four().Length..];
+            }
+            while (context.Input.StartsWith(One()))
+            {
+                context.Output += Multiplier() * 1;
+                context.Input = context.Input[One().Length..];
+            }
         }
 
         public abstract string One();
@@ -91,40 +55,38 @@ namespace Interpreter
     }
 
 
-    class PhraseThousands : Phrase
+    internal class PhraseSingle : Phrase
     {
-        public override string One() { return "M"; }
-        public override string Four() { return " "; }
-        public override string Five() { return " "; }
-        public override string Nine() { return " "; }
-        public override int Multiplier() { return 1000; }
+        public override string One() => "I";
+        public override string Four() => "IV";
+        public override string Five() => "V";
+        public override string Nine() => "IX";
+        public override int Multiplier() => 1;
     }
 
-    class PhraseHundreds : Phrase
+    internal class PhraseTens : Phrase
     {
-        public override string One() { return "C"; }
-        public override string Four() { return "CD"; }
-        public override string Five() { return "D"; }
-        public override string Nine() { return "CM"; }
-        public override int Multiplier() { return 100; }
+        public override string One() => "X";
+        public override string Four() => "XL";
+        public override string Five() => "L";
+        public override string Nine() => "XC";
+        public override int Multiplier() => 10;
     }
-
-    class PhraseTens : Phrase
+    internal class PhraseHundreds : Phrase
     {
-        public override string One() { return "X"; }
-        public override string Four() { return "XL"; }
-        public override string Five() { return "L"; }
-        public override string Nine() { return "XC"; }
-        public override int Multiplier() { return 10; }
+        public override string One() => "C";
+        public override string Four() => "CD";
+        public override string Five() => "D";
+        public override string Nine() => "CM";
+        public override int Multiplier() => 100;
     }
-
-    class PhraseSingle : Phrase
+    internal class PhraseThousands : Phrase
     {
-        public override string One() { return "I"; }
-        public override string Four() { return "IV"; }
-        public override string Five() { return "V"; }
-        public override string Nine() { return "IX"; }
-        public override int Multiplier() { return 1; }
+        public override string One() => "M";
+        public override string Four() => " ";
+        public override string Five() => " ";
+        public override string Nine() => " ";
+        public override int Multiplier() => 1000;
     }
 
     class Program
@@ -132,20 +94,21 @@ namespace Interpreter
         static void Main()
         {
 
-            List<Phrase> tree = new List<Phrase>();
-            tree.Add(new PhraseThousands());
-            tree.Add(new PhraseHundreds());
-
+            var tree = new List<Phrase>
+            {
+                new PhraseThousands(),
+                new PhraseHundreds(),
+                new PhraseTens(),
+                new PhraseSingle()
+            };
 
             var roman = "MDXLIII";
             var context = new Context(roman);
-            foreach (Phrase item in tree)
+            foreach (var item in tree)
             {
                 item.Interpreter(context);
             }
             Console.WriteLine(roman + " = " + context.Output);
-            // MDXLIII = 1543
-
 
             roman = "CMXVII";
             context = new Context(roman);
@@ -154,9 +117,6 @@ namespace Interpreter
                 item.Interpreter(context);
             }
             Console.WriteLine(roman + " = " + context.Output);
-            // CMXVII = 917
-
-
         }
     }
 
