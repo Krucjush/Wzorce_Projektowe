@@ -32,6 +32,7 @@ namespace WzorceProjektowe
         {
             NewsHeadline = news;
             State = state;
+            Notify();
         }
 
         private List<IObserver> Observers = new List<IObserver>();
@@ -103,19 +104,13 @@ namespace WzorceProjektowe
             newsAgency.Attach(nationalGeographic);
 
             newsAgency.setNewsHeadline(Genre.Economy, "USA is going bancrupt!");
-            newsAgency.Notify();
             newsAgency.setNewsHeadline(Genre.Science, "Life on Alpha Centauri");
-            newsAgency.Notify();
             newsAgency.setNewsHeadline(Genre.Sport, "Adam Małysz is the greatest sportsman in the history of mankind");
-            newsAgency.Notify();
             newsAgency.setNewsHeadline(Genre.Economy, "CD Project RED value has grown by 500% in 2020");
-            newsAgency.Notify();
 
             newsAgency.Detach(dailyEconomy);
             newsAgency.setNewsHeadline(Genre.Science, "Kirkendall effect causing airplanes' engine deteriorate");
-            newsAgency.Notify();
             newsAgency.setNewsHeadline(Genre.Economy, "Texas is going bancrupt!");
-            newsAgency.Notify();
         }
     }
 }
